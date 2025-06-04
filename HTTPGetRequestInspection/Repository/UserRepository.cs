@@ -21,7 +21,7 @@ namespace HTTPGetRequestInspection.Repository
         };
 
         // Get all user
-        public IEnumerable<User> GetAll()
+        public async Task<IEnumerable<User>> GetAll()
         {
             var users = Users.ToList();
 
@@ -30,11 +30,13 @@ namespace HTTPGetRequestInspection.Repository
                 user.Orders = Orders.Where(o => o.UserId == user.Id).ToList();
             }
 
+            await Task.Delay(TimeSpan.FromSeconds(3));
+
             return users;
         }
 
         // Get user by ID
-        public User GetById(int Id)
+        public async Task<User> GetById(int Id)
         {
             var user = Users.FirstOrDefault(u => u.Id == Id);
 
@@ -43,12 +45,14 @@ namespace HTTPGetRequestInspection.Repository
                 user.Orders = Orders.Where(o => o.UserId == user.Id).ToList();
             }
 
+            await Task.Delay(TimeSpan.FromSeconds(3));
+
             return user!;
 
         }
 
         // Search users by name
-        public IEnumerable<User> SearchByName(string name)
+        public async Task<IEnumerable<User>> SearchByName(string name)
         {
             var users = Users.Where(u => u.Name.Contains(name)).ToList();
 
@@ -57,13 +61,17 @@ namespace HTTPGetRequestInspection.Repository
                 user.Orders = Orders.Where(o => o.UserId == user.Id).ToList();
             }
 
+            await Task.Delay(TimeSpan.FromSeconds(3));
+
             return users;
         }
 
         // Get orders by user ID
-        public IEnumerable<Order> GetOrderByUserId(int UserId)
+        public async Task<IEnumerable<Order>> GetOrderByUserId(int UserId)
         {
             var userWithOrders = Orders.Where(o => o.UserId == UserId);
+
+            await Task.Delay(TimeSpan.FromSeconds(3));
 
             return userWithOrders ?? new List<Order>();
 

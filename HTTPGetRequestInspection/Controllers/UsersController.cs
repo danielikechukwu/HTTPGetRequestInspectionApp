@@ -19,9 +19,9 @@ namespace HTTPGetRequestInspection.Controllers
         //Endpoint to retrieve all users
         //GET api/users
         [HttpGet]
-        public ActionResult<IEnumerable<User>> GetAllUsers()
+        public async Task<ActionResult<IEnumerable<User>>> GetAllUsers()
         {
-            var users = _userRepository.GetAll();
+            var users = await _userRepository.GetAll();
 
             return Ok(users);
         }
@@ -30,9 +30,9 @@ namespace HTTPGetRequestInspection.Controllers
         //GET api/users/1
         [HttpGet]
         [Route("api/users/{Id}")]
-        public ActionResult<User> GetUser([FromRoute] int Id)
+        public async Task<ActionResult<User>> GetUser([FromRoute] int Id)
         {
-            var user = _userRepository.GetById(Id);
+            var user = await _userRepository.GetById(Id);
 
             if(user == null)
             {
@@ -46,9 +46,9 @@ namespace HTTPGetRequestInspection.Controllers
         //GET api/users/search?name=pranaya
         [HttpGet]
         [Route("search")]
-        public ActionResult<IEnumerable<User>> SearchUsers([FromRoute] string name)
+        public async Task<ActionResult<IEnumerable<User>>> SearchUsers([FromRoute] string name)
         {
-                var users = _userRepository.SearchByName(name);
+                var users = await _userRepository.SearchByName(name);
 
             if (users == null || !users.Any())
                 return NotFound();
@@ -60,9 +60,9 @@ namespace HTTPGetRequestInspection.Controllers
         //GET api/users/1/orders
         [HttpGet]
         [Route("api/users/{userId}/orders")]
-        public ActionResult<IEnumerable<Order>> GetUserOrders([FromRoute] int userId)
+        public async Task<ActionResult<IEnumerable<Order>>> GetUserOrders([FromRoute] int userId)
         {
-            var orders = _userRepository.GetOrderByUserId(userId);
+            var orders = await _userRepository.GetOrderByUserId(userId);
 
             if(orders == null || !orders.Any())
                 return NotFound();
